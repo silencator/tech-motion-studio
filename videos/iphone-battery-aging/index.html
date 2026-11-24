@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Why iPhone Batteries Age</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stage">
+  <div id="grid"></div>
+  <div id="warm"></div>
+
+  <!-- ============ PHONE (scenes 1-3, 10) ============ -->
+  <div id="dayChip" class="c chip"><i id="dayDot"></i><span id="dayTxt">Day 1</span></div>
+
+  <div id="phone" class="c">
+    <div class="phone-body">
+      <div class="screen" id="screen">
+        <div class="night" id="night"></div>
+        <div class="ph-date" id="phDate">Monday, June 2</div>
+        <div class="ph-time" id="phTime">8:00</div>
+        <div class="ph-widget">
+          <div class="pb-shell"><div class="pb-fill" id="pbFill"></div></div>
+          <div class="pb-pct" id="pbPct">100%</div>
+          <div class="pb-lbl">Battery</div>
+        </div>
+        <div class="ph-alert" id="phAlert">
+          <div class="al-ico"><div class="al-batt"><i></i></div></div>
+          <div><b>Low Battery</b><span id="alTxt">10% battery remaining</span></div>
+        </div>
+      </div>
+      <div class="xray" id="xray">
+        <div class="board"><i></i><i></i><i></i></div>
+        <div class="pack">
+          <div class="pack-tabs"><i></i><i></i></div>
+          <div class="pack-name">Lithium-ion</div>
+          <div class="pack-lbl">Maximum capacity</div>
+          <div class="pack-val" id="packVal">100%</div>
+          <div class="pack-bar"><i id="packBar"></i></div>
+        </div>
+      </div>
+      <div class="island"></div>
+    </div>
+  </div>
+
+  <div id="charger" class="c">
+    <svg viewBox="0 0 200 300" width="200" height="300">
+      <path d="M100 210 C100 260 40 250 40 300" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round"/>
+      <path d="M100 210 C100 260 40 250 40 300" fill="none" stroke="#dfe3e8" stroke-width="12" stroke-linecap="round"/>
+      <rect x="62" y="70" width="76" height="150" rx="22" fill="#fff" stroke="#d5dbe1" stroke-width="3"/>
+      <rect x="78" y="34" width="44" height="44" rx="8" fill="#b9c0c8"/>
+      <rect x="86" y="44" width="28" height="10" rx="4" fill="#8d959e"/>
+    </svg>
+    <div class="q-badge">?</div>
+  </div>
+
+  <div id="qBubble" class="c card">?</div>
+  <div id="stamp" class="c">AGED</div>
+
+  <!-- ============ CELL (scene 4) ============ -->
+  <div id="cell" class="c">
+    <div class="cell-tab a"></div><div class="cell-tab b"></div>
+    <div class="cell-body">
+      <div class="cell-name">Li-ion</div>
+      <div class="cell-v">3.8 V</div>
+      <div class="cell-lines"><i></i><i></i><i></i></div>
+    </div>
+  </div>
+  <div id="liTile" class="c card">
+    <div class="li-n">3</div><div class="li-s">Li</div><div class="li-name">Lithium</div>
+  </div>
+  <div id="cellChip" class="c chip">Lithium-ion battery</div>
+
+  <!-- ============ DIAGRAM (scenes 5-7) ============ -->
+  <div id="diagram" class="c card">
+    <div id="dStatus" class="d-status"><i id="dDot"></i><span id="dTxt">Lithium-ion cell</span></div>
+    <svg id="dsvg" viewBox="0 0 940 1000" width="940" height="1000">
+      <defs>
+        <pattern id="oxide" width="30" height="30" patternUnits="userSpaceOnUse">
+          <circle cx="8" cy="8" r="4" fill="#9fbadb"/><circle cx="23" cy="23" r="4" fill="#9fbadb"/>
+        </pattern>
+        <pattern id="hatch" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="18" height="18" fill="#f3d4d4"/><rect width="7" height="18" fill="#e9a8aa"/>
+        </pattern>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="8"/>
+        </filter>
+      </defs>
+      <!-- external circuit -->
+      <path id="wire" d="M220 300 V205 Q220 180 245 180 H695 Q720 180 720 205 V300" fill="none" stroke="#c9d1d9" stroke-width="10" stroke-linecap="round"/>
+      <g id="electrons"></g>
+      <g transform="translate(470 180)">
+        <circle id="boxGlow" r="60" fill="#ffd34d" filter="url(#glow)" opacity="0"/>
+        <rect x="-95" y="-42" width="190" height="84" rx="24" fill="#fff" stroke="#d8dee4" stroke-width="3"/>
+        <path id="boxBolt" d="M-58 -22 L-74 4 L-62 4 L-68 24 L-46 -6 L-58 -6 L-50 -22 Z" fill="#30c35c"/>
+        <text id="boxTxt" x="-30" y="11" font-size="30" font-weight="700" fill="#101114">Charger</text>
+      </g>
+      <!-- electrolyte -->
+      <rect id="electrolyte" x="70" y="290" width="800" height="600" rx="34" fill="#e4f1f8"/>
+      <!-- cathode -->
+      <rect x="100" y="315" width="240" height="550" rx="20" fill="#6f93bd"/>
+      <rect x="100" y="315" width="240" height="550" rx="20" fill="url(#oxide)" opacity=".7"/>
+      <!-- anode (graphite layers) -->
+      <rect x="600" y="315" width="240" height="550" rx="20" fill="#565b64"/>
+      <g id="stripes"></g>
+      <!-- SEI build-up -->
+      <rect id="sei" x="584" y="318" width="16" height="544" rx="8" fill="#b07a45" opacity="0"/>
+      <!-- separator -->
+      <line x1="470" y1="305" x2="470" y2="875" stroke="#9fb2c2" stroke-width="6" stroke-dasharray="16 14" stroke-linecap="round"/>
+      <!-- wear -->
+      <g id="cracks" opacity="0" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M140 330 L180 410 L158 470 L210 560 L190 640" stroke="#2c3f57"/>
+        <path d="M300 520 L262 600 L285 680 L240 770 L262 850" stroke="#2c3f57"/>
+        <path d="M120 720 L170 760 L150 820" stroke="#2c3f57"/>
+        <path d="M660 330 L700 420 L680 500 L730 590" stroke="#a7adb5"/>
+        <path d="M820 610 L780 700 L800 790 L760 860" stroke="#a7adb5"/>
+      </g>
+      <rect id="fade" x="70" y="290" width="800" height="600" rx="34" fill="#8a8f96" opacity="0"/>
+      <g id="ions"></g>
+      <!-- labels -->
+      <text x="220" y="945" text-anchor="middle" font-size="36" font-weight="700" fill="#101114">Cathode</text>
+      <text x="220" y="982" text-anchor="middle" font-size="26" fill="#6b7280">Metal oxide</text>
+      <text x="470" y="945" text-anchor="middle" font-size="26" font-weight="600" fill="#6b7280">Separator</text>
+      <text x="720" y="945" text-anchor="middle" font-size="36" font-weight="700" fill="#101114">Anode</text>
+      <text x="720" y="982" text-anchor="middle" font-size="26" fill="#6b7280">Graphite</text>
+    </svg>
+  </div>
+
+  <div id="callTrap" class="c chip small"><i class="ion-ico gray"></i>Trapped lithium</div>
+  <div id="callWear" class="c chip small"><i class="crack-ico"></i>Worn electrodes</div>
+
+  <div id="catch" class="c card">
+    <div class="catch-k">The catch</div>
+    <svg viewBox="0 0 300 300" width="300" height="300">
+      <g id="arcTop">
+        <path d="M60 135 A92 92 0 0 1 240 135" fill="none" stroke-width="24" stroke-linecap="round" stroke="#2f7cf6" class="arc"/>
+        <polygon points="216,124 264,124 240,158" fill="#2f7cf6" class="arc-f"/>
+      </g>
+      <g id="arcBot">
+        <path d="M240 168 A92 92 0 0 1 60 168" fill="none" stroke-width="24" stroke-linecap="round" stroke="#2f7cf6" class="arc"/>
+        <polygon id="arcHead" points="36,178 84,178 60,144" fill="#2f7cf6" class="arc-f"/>
+      </g>
+      <path id="crack" d="M148 150 L130 182 L152 196 L134 236" fill="none" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
+    </svg>
+    <div class="catch-t" id="catchT">Not 100% reversible</div>
+  </div>
+
+  <!-- ============ RESULT (scene 8) ============ -->
+  <div id="resultH" class="c headline">The result?</div>
+  <div id="capCard" class="c card">
+    <div class="rc-t">Energy capacity</div>
+    <div class="rc-s">How much it can store</div>
+    <div class="hb">
+      <div class="hb-shell">
+        <div class="hb-lost" id="hbLost"><span id="hbLostTxt">−20%</span></div>
+        <div class="hb-fill" id="hbFill"><span id="hbPct">100%</span></div>
+      </div>
+      <div class="hb-nub"></div>
+    </div>
+  </div>
+  <div id="resCard" class="c card">
+    <div class="rc-t">Internal resistance</div>
+    <div class="rc-s" id="resSub">Harder to deliver power</div>
+    <svg class="gauge" viewBox="0 0 320 190" width="320" height="190">
+      <path d="M30 170 A130 130 0 0 1 95 57" fill="none" stroke="#30c35c" stroke-width="26"/>
+      <path d="M103 52 A130 130 0 0 1 217 52" fill="none" stroke="#ffb020" stroke-width="26"/>
+      <path d="M225 57 A130 130 0 0 1 290 170" fill="none" stroke="#e5484d" stroke-width="26"/>
+      <g id="needle" transform="translate(160 170) rotate(-70)">
+        <path d="M-9 0 L0 -112 L9 0 Z" fill="#101114"/>
+      </g>
+      <circle cx="160" cy="170" r="18" fill="#101114"/>
+    </svg>
+    <div class="res-val" id="resVal">LOW</div>
+    <div class="flow" id="flow"></div>
+  </div>
+
+  <!-- ============ HEAT (scene 9) ============ -->
+  <div id="thermo" class="c card">
+    <svg viewBox="0 0 200 520" width="200" height="520">
+      <rect x="66" y="20" width="68" height="410" rx="34" fill="#f1f3f5" stroke="#d6dce2" stroke-width="4"/>
+      <rect id="merc" x="84" y="200" width="32" height="260" rx="16" fill="#e5484d"/>
+      <circle cx="100" cy="455" r="58" fill="#e5484d"/>
+      <circle cx="84" cy="440" r="14" fill="#fff" opacity=".35"/>
+      <g stroke="#b7c0c9" stroke-width="4" stroke-linecap="round">
+        <line x1="146" y1="80" x2="166" y2="80"/><line x1="146" y1="150" x2="166" y2="150"/>
+        <line x1="146" y1="220" x2="166" y2="220"/><line x1="146" y1="290" x2="166" y2="290"/>
+        <line x1="146" y1="360" x2="166" y2="360"/>
+      </g>
+    </svg>
+    <div class="th-val" id="thVal">25°C</div>
+  </div>
+  <div id="ageCard" class="c card">
+    <div class="rc-t">Ageing speed</div>
+    <div class="bars" id="bars"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="age-val" id="ageVal">Normal</div>
+  </div>
+  <div id="carCard" class="c card">
+    <svg viewBox="0 0 580 300" width="580" height="300">
+      <g id="sun" transform="translate(70 70)">
+        <g id="rays" stroke="#ffb020" stroke-width="8" stroke-linecap="round">
+          <line x1="0" y1="-52" x2="0" y2="-40"/><line x1="0" y1="52" x2="0" y2="40"/>
+          <line x1="-52" y1="0" x2="-40" y2="0"/><line x1="52" y1="0" x2="40" y2="0"/>
+          <line x1="-37" y1="-37" x2="-28" y2="-28"/><line x1="37" y1="37" x2="28" y2="28"/>
+          <line x1="-37" y1="37" x2="-28" y2="28"/><line x1="37" y1="-37" x2="28" y2="-28"/>
+        </g>
+        <circle r="28" fill="#ffc640"/>
+      </g>
+      <g id="waves" fill="none" stroke="#ff8a4c" stroke-width="6" stroke-linecap="round">
+        <path d="M260 70 q12 -12 0 -24 q-12 -12 0 -24"/>
+        <path d="M320 70 q12 -12 0 -24 q-12 -12 0 -24"/>
+        <path d="M380 70 q12 -12 0 -24 q-12 -12 0 -24"/>
+      </g>
+      <g transform="translate(10 40)">
+        <path d="M30 200 Q30 162 70 154 L150 142 L212 86 Q228 72 252 72 L382 72 Q406 72 422 86 L482 142 L522 152 Q550 160 550 192 L550 212 Q550 226 536 226 L44 226 Q30 226 30 212 Z" fill="#5d7fa3"/>
+        <path d="M226 96 Q236 88 252 88 L304 88 L304 142 L172 142 Z" fill="#cfe3f3"/>
+        <path d="M318 88 L378 88 Q394 88 404 98 L448 142 L318 142 Z" fill="#cfe3f3"/>
+        <rect x="236" y="120" width="34" height="20" rx="5" fill="#1b1c20"/>
+        <rect id="carPhoneBatt" x="242" y="126" width="16" height="8" rx="2" fill="#e5484d"/>
+        <circle cx="145" cy="226" r="44" fill="#22252b"/><circle cx="145" cy="226" r="18" fill="#b9c0c8"/>
+        <circle cx="440" cy="226" r="44" fill="#22252b"/><circle cx="440" cy="226" r="18" fill="#b9c0c8"/>
+      </g>
+    </svg>
+    <div class="car-txt">
+      <div class="car-t">Hot car</div>
+      <div class="car-s">Up to 60°C+</div>
+      <div class="car-bad" id="carBad">Battery health ↓</div>
+    </div>
+  </div>
+
+  <!-- ============ ENDING (scene 10) ============ -->
+  <div id="imagChip" class="c chip">It's not your imagination</div>
+  <div id="runTxt" class="c headline">Run down<i id="strike"></i></div>
+  <div id="bigBatt" class="c">
+    <div class="bb-shell">
+      <div class="bb-fill" id="bbFill"></div>
+      <div class="bb-worn" id="bbWorn"></div>
+      <svg class="bb-cracks" id="bbCracks" viewBox="0 0 700 300" preserveAspectRatio="none">
+        <path d="M560 0 L585 70 L560 130 L600 210 L580 300" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="bb-nub"></div>
+  </div>
+  <div id="wornTxt" class="c headline red">It's worn down.</div>
+
+  <!-- ============ CAPTIONS ============ -->
+  <div id="captions"></div>
+</div>
+
+<div id="controls">
+  <button id="play">Play</button>
+  <input id="scrub" type="range" min="0" max="59.3" step="0.01" value="0">
+  <span id="tc">0.00</span>
+</div>
+<audio id="audio" src="voiceover.mp3" preload="auto"></audio>
+
+<script src="../../engine/anim.js"></script>
+<script src="../../engine/captions.js"></script>
+<script src="scene.js"></script>
+</body>
+</html>
