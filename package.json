@@ -1,0 +1,24 @@
+{
+  "name": "tech-motion-studio",
+  "version": "1.0.0",
+  "description": "Code-driven motion graphics for short tech explainers (9:16, 1080×1920, 30 fps). Each video is an HTML page where every frame is a pure function of time, synced to a voiceover, then rendered frame-by-frame to MP4 with headless Chromium + ffmpeg.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silencator/tech-motion-studio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/silencator/tech-motion-studio/issues"
+  },
+  "homepage": "https://github.com/silencator/tech-motion-studio#readme",
+  "dependencies": {
+    "@fontsource/playfair-display": "^5.1.1",
+    "three": "^0.170.0"
+  }
+}

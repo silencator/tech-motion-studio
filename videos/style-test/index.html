@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Style Test</title>
+<style>
+@font-face { font-family: "Playfair"; font-style: italic; font-weight: 400; src: url(../../assets/fonts/playfair-display-latin-400-italic.woff2) format("woff2"); }
+@font-face { font-family: "Playfair"; font-style: italic; font-weight: 500; src: url(../../assets/fonts/playfair-display-latin-500-italic.woff2) format("woff2"); }
+@font-face { font-family: "Playfair"; font-style: italic; font-weight: 600; src: url(../../assets/fonts/playfair-display-latin-600-italic.woff2) format("woff2"); }
+:root { --ink: #141312; --amber: #e0832a; --paper: #f2eee7; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #0d0d0d; overflow: hidden; }
+#stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; transform-origin: 0 0;
+  background: radial-gradient(90% 60% at 50% 48%, #f7f4ee 0%, #ebe6dd 55%, #d6cfc3 100%); }
+#glow { position: absolute; left: 50%; top: 52%; width: 1400px; height: 1400px; margin: -700px 0 0 -700px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,170,80,.35), rgba(255,170,80,0) 60%); opacity: 0; }
+#shadow { position: absolute; left: 50%; top: 0; width: 520px; height: 80px; margin-left: -260px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(40,30,20,.32), rgba(40,30,20,0)); filter: blur(6px); }
+#gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.layer { position: absolute; inset: 0; pointer-events: none; }
+.kicker { position: absolute; left: 0; right: 0; top: 230px; text-align: center; font: 600 52px "Inter Display", "Inter", sans-serif;
+  letter-spacing: -1px; color: rgba(20,19,18,.78); white-space: nowrap; }
+.big { position: absolute; left: 0; right: 0; top: 280px; text-align: center; font: italic 500 236px/1.1 "Playfair", serif;
+  letter-spacing: -6px; color: var(--ink); white-space: nowrap; }
+.big.huge { top: 250px; font-size: 340px; color: var(--amber); }
+.kicker span, .big span { display: inline-block; will-change: transform, filter, opacity; }
+.big .acc { color: var(--amber); }
+#ui { position: absolute; inset: 0; }
+.cl-txt { font: 700 26px "Inter", sans-serif; letter-spacing: 5px; fill: var(--ink); }
+#readout { position: absolute; left: 0; right: 0; top: 1520px; text-align: center; }
+#readout .lbl { font: 700 24px "Inter", sans-serif; letter-spacing: 6px; color: rgba(20,19,18,.6); }
+#roll { position: relative; height: 150px; overflow: hidden; margin-top: 6px;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent); }
+#roll div { position: absolute; left: 0; right: 0; text-align: center; font: 700 128px/150px "Inter Display", "Inter", sans-serif; letter-spacing: -5px; color: var(--ink); }
+#grain { position: absolute; inset: -64px; opacity: .085; mix-blend-mode: multiply; }
+#vignette { position: absolute; inset: 0; background: radial-gradient(120% 80% at 50% 45%, transparent 55%, rgba(60,45,30,.22)); }
+#controls { position: fixed; left: 0; right: 0; bottom: 0; display: flex; gap: 12px; align-items: center; padding: 10px 16px; background: #1b1c20; color: #fff; font: 14px sans-serif; }
+#controls input { flex: 1; }
+body.render #controls { display: none; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="glow"></div>
+  <div class="layer" id="back"></div>
+  <div id="shadow"></div>
+  <canvas id="gl" width="1080" height="1920"></canvas>
+  <div class="layer" id="front"></div>
+  <svg id="ui" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
+  <div id="readout"><div class="lbl">MAX CAPACITY</div><div id="roll"></div></div>
+  <div id="grain"></div>
+  <div id="vignette"></div>
+</div>
+<div id="controls"><button id="play">Play</button><input id="scrub" type="range" min="0" max="5" step="0.001" value="0"><span id="tc">0.00</span></div>
+<audio id="audio" src="../iphone-battery-aging/voiceover.mp3" preload="auto"></audio>
+
+<script src="../../engine/anim.js"></script>
+<script type="importmap">
+{ "imports": { "three": "/node_modules/three/build/three.module.js", "three/addons/": "/node_modules/three/examples/jsm/" } }
+</script>
+<script type="module" src="scene.js"></script>
+</body>
+</html>

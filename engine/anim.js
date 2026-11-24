@@ -50,5 +50,19 @@
     el.style.visibility = o < 0.002 ? 'hidden' : 'visible';
   }
 
-  window.Anim = { clamp, lerp, E, prog, bump, win, rng, mix, place };
+  // Keyframes: kf(t, [[t0, v0], [t1, v1, ease?], ...]). Each segment uses the ease
+  // given on its end key (default inOutCubic). Holds outside the range.
+  function kf(t, keys) {
+    if (t <= keys[0][0]) return keys[0][1];
+    for (let i = 1; i < keys.length; i++) {
+      const [t1, v1, ease] = keys[i];
+      if (t <= t1) {
+        const [t0, v0] = keys[i - 1];
+        return lerp(v0, v1, (ease || E.inOutCubic)(clamp((t - t0) / (t1 - t0))));
+      }
+    }
+    return keys[keys.length - 1][1];
+  }
+
+  window.Anim = { clamp, lerp, E, prog, bump, win, rng, mix, place, kf };
 })();
