@@ -12,6 +12,24 @@ The owner works from an iPhone: everything is built, previewed and rendered in t
 - **Deliver:** send the MP4 with SendUserFile, and also commit it to `renders/<name>.mp4` (Git LFS; the `tech-motion-studio` cloud environment allows lfs.github.com) and give the link
   `https://github.com/silencator/tech-motion-studio/raw/claude/youthful-cannon-wip7qx/renders/<name>.mp4` (Safari → Share → Save Video).
 
+## Scripts: always deliver 10/10 (owner rule)
+
+Whenever the owner sends an idea or a draft script, return a finished 10/10 script, so they never have to rewrite it. Do the full improvement pass before answering; don't hand back a 7 or 8 and wait to be asked again. Present the final script in full (never only a list of suggested edits), then a short "why it's 10" note.
+
+A script is 10/10 only when it meets every point:
+1. **Hook that pays off:** the opening corrects a myth or asks a question, and the script answers it with something concrete.
+2. **Real mechanism:** explain *why* it happens (the cause), not just *that* it happens.
+3. **No contradictions:** every line agrees with the others and with the ending.
+4. **One surprise:** a "wait, really?" fact that is true.
+5. **One core idea:** everything builds to a single clear takeaway line.
+6. **No filler:** cut "here's where it gets interesting" and "there's another problem", plus anything said twice. Every line moves the story.
+7. **Accurate and calm:** nothing a knowledgeable commenter could correct; no fear-mongering; use concrete numbers ("10 km up", not "thousands of metres").
+8. **Memorable ending** that calls back to an earlier image or word.
+9. **Visual:** each line gives the video something to show (a meter, a map, an object change), at this channel's fast pace.
+10. **Length:** ~45–60 s spoken for short-form unless the owner asks otherwise.
+
+If a point can't be met (e.g. no surprising fact is true), say so plainly instead of inventing one. Talking about a script is not a "start": don't build the video until the owner says so.
+
 ## Output format (always)
 
 - 9:16, **1080×1920, 60 fps, 25 Mbps** H.264 (`bitrate: '25M', maxrate: '25M'` in `window.VIDEO`), AAC 320k.
