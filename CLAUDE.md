@@ -21,7 +21,8 @@ The owner works from an iPhone: everything is built, previewed and rendered in t
 
 - **Pace:** something new happens on screen at least every ~1.5 s (aim for 0.5–1 s): a word change, an object turning or exploding, a label drawing on, a number rolling. Between beats the camera keeps pushing/drifting and objects keep floating, so the frame is never static. Fast, fluid, smooth.
 - **Type:** kicker line in Inter Display 600 (~52 px) on top; hero word in **Playfair Display Italic 500** (~236 px, auto-fit to width) that blurs in letter by letter and locks on the spoken word, then blurs out into the next. Word times come from the audio.
-- **Look:** warm paper background, film grain, soft vignette, contact shadow under objects. Black ink + **one amber accent** (`#e0832a`) for key words, rolls and glows; full warm/orange takeover only for heat moments.
+- **Background (always, owner-approved):** the light caramel / warm paper colour from `battery-ageing`: `radial-gradient(90% 60% at 50% 48%, #f7f4ee 0%, #ebe6dd 55%, #d6cfc3 100%)`. Never switch to white, grey, dark or another colour (the temporary warm-orange heat overlay is the only exception).
+- **Look:** that background + film grain, soft vignette, contact shadow under objects. Black ink + **one amber accent** (`#e0832a`) for key words, rolls and glows; full warm/orange takeover only for heat moments.
 - **Graphics:** 3D hero objects built in Three.js (phone, battery, cell layers, ions…), thin-line callouts with a dot and tracked caps label (`BATTERY.`), rolling picker numbers with a small caps label, rings/ticks, line-art drawn on with stroke animation, iOS-style UI touches (search bar typing, lock screen).
 - Invent the visuals from the script, one clear idea per beat. Don't copy reference videos literally.
 
