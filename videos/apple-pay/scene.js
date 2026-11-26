@@ -448,7 +448,7 @@ const CALLOUTS = [
   ['YOUR BANK.', 1, 25.0, 26.85, P3(bank, [0.3, -0.45, 0.26]), [40, 150]],
   ['APPLE.', 1, 26.1, 26.85, P3(phone, [0.3, -0.62, 0.04]), [40, 150]],
   ['STOLEN.', -1, 40.3, 40.95, null, [-170, -150], 'card:stolen'],
-  ['TOP OF WALLET.', -1, 44.05, 45.0, null, [-60, 150], 'pop'],
+  ['TOP OF WALLET.', -1, 44.05, 45.0, null, [-80, 215], 'pop'],
 ].map(([label, side, tin, tout, anchor, d, tag]) => ({ c: makeCallout(label, side), tin, tout, anchor, d, tag }));
 
 // contactless ripples (unscaled layer)
@@ -596,7 +596,7 @@ function phoneState(t) {
     rx: 0.06, ry: kf(t, [[41.88, -1.4], [42.4, -0.18, E.outExpo], [45.1, 0.16, E.linear]]), rz: 0.02,
   };
   if (t > 48.3 && t < 52.8) return {
-    s: Math.min(sIn(t, 48.38, 0.5, 0.82), 0.82 * sOut(t, 52.33)), x: 0, y: -0.14 + f,
+    s: Math.min(sIn(t, 48.38, 0.5, 0.76), 0.76 * sOut(t, 52.33)), x: 0, y: -0.18 + f,
     rx: 0.08 + 0.32 * Math.sin(Math.PI * clamp((t - 49.36) / 0.45)),
     ry: kf(t, [[48.38, 1.6], [48.9, 0.25, E.outExpo], [51.6, -0.25, E.linear]]) + turn(t, 51.67, 52.25), rz: Math.sin(t * 1.3) * 0.015,
   };
@@ -814,7 +814,7 @@ function renderAt(t) {
 
   // ---------------- contact shadows (two most present grounded actors)
   const grounded = [['phone', phone], ['card', mainCard], ['terminal', terminal], ['bank', bank], ['coin', coin], ['globe', globe], ['pop', popCard]]
-    .filter(([, o]) => o.visible).map(([n, o]) => ({ n, o, b: screenBox(o), s: o.scale.x })).filter(a => a.b).sort((a, b) => b.s - a.s).slice(0, 2);
+    .filter(([, o]) => o.visible).map(([n, o]) => { const b = screenBox(o); if (b && n === 'globe') b.y1 = project(globe, [0, -GR, 0])[1] + 20; return { n, o, b, s: o.scale.x }; }).filter(a => a.b).sort((a, b) => b.s - a.s).slice(0, 2);
   shadows.forEach((el, i) => {
     const a = grounded[i];
     if (!a) { el.style.opacity = 0; return; }
@@ -1074,7 +1074,17 @@ window.checkAt = t => {
   const hits = [];
   let ro = false; rolls.forEach(r => { if (+r.el.style.opacity > 0.05) ro = true; });
   const objs = [];
-  ACTORS().forEach(([n, o]) => { if (o.visible) { const b = screenBox(o); if (b) objs.push([n, b]); } });
+  ACTORS().forEach(([n, o]) => {
+    if (!o.visible) return;
+    if (n === 'globe') { // exact: sample the dot sphere and the orbit ring instead of a loose AABB
+      let y0 = 1e9, x0 = 1e9, x1 = -1e9, y1 = -1e9;
+      for (let i = 0; i < 400; i++) { const a = i / 400 * TAU;
+        [[Math.cos(a) * GR, Math.sin(a) * GR, 0], [Math.cos(a) * GR * 1.16, 0, Math.sin(a) * GR * 1.16]].forEach(pt => { const [x, y] = project(globe, pt); x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }); }
+      for (let i = 0; i < 400; i++) { const u = i / 400 * TAU; const [x, y] = project(globe, [0, Math.cos(u) * GR, Math.sin(u) * GR]); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
+      objs.push([n, { x0, y0, x1, y1 }]); return;
+    }
+    const b = screenBox(o); if (b) objs.push([n, b]);
+  });
   [['track', trackG], ['net', netG], ['stamp', stampG], ['ring', ringG], ['pill', pillG], ['ans', ansPath], ['fee', feePath], ['minis', miniG], ['pins', pinG], ['rips', ripG], ['receipt', $('receipt')],
    ...CALLOUTS.map((c, i) => ['callout' + i, c.c.text])].forEach(([n, el]) => {
     if (el.style.display === 'none' || el.style.visibility === 'hidden' || +(el.getAttribute?.('opacity') ?? 1) < 0.05 || +(el.style.opacity || 1) < 0.05) return;
