@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Apple Pay</title>
+<style>
+@font-face { font-family: "Playfair"; font-style: italic; font-weight: 400; src: url(../../assets/fonts/playfair-display-latin-400-italic.woff2) format("woff2"); }
+@font-face { font-family: "Playfair"; font-style: italic; font-weight: 500; src: url(../../assets/fonts/playfair-display-latin-500-italic.woff2) format("woff2"); }
+@font-face { font-family: "Playfair"; font-style: italic; font-weight: 600; src: url(../../assets/fonts/playfair-display-latin-600-italic.woff2) format("woff2"); }
+:root { --ink: #141312; --amber: #e0832a; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #0d0d0d; overflow: hidden; }
+#stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; transform-origin: 0 0;
+  background: radial-gradient(90% 60% at 50% 48%, #f7f4ee 0%, #ebe6dd 55%, #d6cfc3 100%); }
+#glow { position: absolute; left: 50%; top: 54%; width: 1400px; height: 1400px; margin: -700px 0 0 -700px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,170,80,.4), rgba(255,170,80,0) 60%); opacity: 0; }
+.shadow { position: absolute; left: 0; top: 0; width: 520px; height: 80px; margin-left: -260px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(40,30,20,.32), rgba(40,30,20,0)); filter: blur(6px); opacity: 0; }
+#gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.layer, .svgl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
+.kicker { position: absolute; left: 0; right: 0; top: 230px; text-align: center; font: 600 52px "Inter Display", "Inter", sans-serif;
+  letter-spacing: -1px; color: rgba(20,19,18,.78); white-space: nowrap; }
+.big { position: absolute; left: 0; right: 0; top: 280px; text-align: center; font: italic 500 236px/1.1 "Playfair", serif;
+  letter-spacing: -6px; color: var(--ink); white-space: nowrap; }
+.kicker span, .big span { display: inline-block; will-change: transform, filter, opacity; white-space: pre; }
+.big .acc { color: var(--amber); }
+.cl-txt { font: 700 26px "Inter", sans-serif; letter-spacing: 5px; fill: var(--ink); }
+.sm-txt { font: 700 22px "Inter", sans-serif; letter-spacing: 5px; fill: rgba(20,19,18,.6); }
+.pin-txt { font: 700 22px "Inter", sans-serif; letter-spacing: 3px; fill: #fff; }
+.readout { position: absolute; left: 0; right: 0; top: 1540px; text-align: center; opacity: 0; }
+.readout .lbl { font: 700 24px "Inter", sans-serif; letter-spacing: 6px; color: rgba(20,19,18,.6); }
+.roll { position: relative; height: 150px; overflow: hidden; margin-top: 6px;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent); }
+.roll div { position: absolute; left: 0; right: 0; text-align: center; font: 700 128px/150px "Inter Display", "Inter", sans-serif; letter-spacing: -5px; color: var(--ink); white-space: nowrap; }
+#receipt { position: absolute; left: 190px; top: 700px; width: 700px; border-radius: 40px; background: rgba(255,255,255,.95); padding: 46px 54px 50px; opacity: 0;
+  box-shadow: 0 40px 80px -30px rgba(60,40,20,.38), 0 0 0 1px rgba(20,19,18,.05); visibility: hidden; }
+#receipt .hd { font: 700 22px "Inter", sans-serif; letter-spacing: 6px; color: rgba(20,19,18,.5); display: flex; justify-content: space-between; }
+#receipt .row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 34px; will-change: transform, opacity, filter; }
+#receipt .k { font: 700 24px "Inter", sans-serif; letter-spacing: 5px; color: rgba(20,19,18,.62); }
+#receipt .v { font: 600 64px "Inter Display", "Inter", sans-serif; letter-spacing: -2px; color: var(--ink); }
+#receipt .v.amber { color: var(--amber); }
+#receipt .v.sm { font-size: 46px; }
+#receipt .rule { height: 0; border-top: 3px dashed rgba(20,19,18,.18); margin-top: 38px; }
+#receipt .bar { position: relative; height: 34px; border-radius: 17px; background: rgba(20,19,18,.12); margin-top: 26px; overflow: visible; }
+#receipt .bar .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 17px; background: #141312; }
+#receipt .bar .cut { position: absolute; top: 0; bottom: 0; width: 46px; border-radius: 17px; background: var(--amber); }
+#grain { position: absolute; inset: -64px; opacity: .085; mix-blend-mode: multiply; }
+#vignette { position: absolute; inset: 0; background: radial-gradient(120% 80% at 50% 45%, transparent 55%, rgba(60,45,30,.22)); }
+#controls { position: fixed; left: 0; right: 0; bottom: 0; display: flex; gap: 12px; align-items: center; padding: 10px 16px; background: #1b1c20; color: #fff; font: 14px sans-serif; }
+#controls input { flex: 1; }
+body.render #controls { display: none; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="glow"></div>
+  <svg class="svgl" id="backsvg" viewBox="0 0 1080 1920"></svg>
+  <div class="shadow" id="sh0"></div>
+  <div class="shadow" id="sh1"></div>
+  <canvas id="gl" width="1080" height="1920"></canvas>
+  <div id="receipt">
+    <div class="hd"><span>CREDIT PURCHASE</span><span>APPROVED</span></div>
+    <div class="row" id="r1"><span class="k">APPLE'S CUT</span><span class="v amber" id="r1v">$0.15</span></div>
+    <div class="row" id="r2"><span class="k">ON A PURCHASE OF</span><span class="v">$100.00</span></div>
+    <div class="rule" id="rrule"></div>
+    <div class="row" id="r3"><span class="k">PAID BY</span><span class="v sm">YOUR BANK</span></div>
+    <div class="row" id="r4"><span class="k">OUT OF ITS FEE</span><span class="v sm">≈ $2.00</span></div>
+    <div class="bar" id="rbar"><div class="fill" id="rfill"></div><div class="cut" id="rcut"></div></div>
+  </div>
+  <svg class="svgl" id="ui" viewBox="0 0 1080 1920"></svg>
+  <svg class="svgl" id="ui2" viewBox="0 0 1080 1920"></svg>
+  <div class="layer" id="front"></div>
+  <div id="readouts"></div>
+  <div id="grain"></div>
+  <div id="vignette"></div>
+</div>
+<div id="controls"><button id="play">Play</button><input id="scrub" type="range" min="0" max="56.9" step="0.001" value="0"><span id="tc">0.00</span></div>
+<audio id="audio" src="voiceover.mp3" preload="auto"></audio>
+
+<script src="../../engine/anim.js"></script>
+<script type="importmap">
+{ "imports": { "three": "/node_modules/three/build/three.module.js", "three/addons/": "/node_modules/three/examples/jsm/" } }
+</script>
+<script type="module" src="scene.js"></script>
+</body>
+</html>
