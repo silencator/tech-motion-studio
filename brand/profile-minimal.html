@@ -1,0 +1,27 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Profile minimal</title>
+<style>
+@font-face { font-family: "Playfair"; font-style: italic; font-weight: 400; src: url(../assets/fonts/playfair-display-latin-400-italic.woff2) format("woff2"); }
+@font-face { font-family: "Playfair"; font-style: normal; font-weight: 400; src: url(../assets/fonts/playfair-display-latin-400-normal.woff2) format("woff2"); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1600px; height: 1600px; overflow: hidden; }
+.pic { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; flex-direction: column;
+  background: radial-gradient(75% 75% at 50% 46%, #f7f4ee 0%, #ebe6dd 60%, #ddd6ca 100%); color: #141312; }
+.pic.ink { background: radial-gradient(80% 80% at 50% 44%, #221f1c 0%, #141210 70%, #0c0b0a 100%); color: #efe8dc; }
+body[data-v="a"] #a, body[data-v="b"] #b, body[data-v="c"] #c, body[data-v="d"] #d { display: flex; }
+.grain { position: absolute; inset: 0; opacity: .06; mix-blend-mode: multiply; }
+.ink .grain { mix-blend-mode: screen; opacity: .035; }
+.it { font: italic 400 300px/0.95 "Playfair", serif; letter-spacing: -6px; text-align: center; position: relative; }
+.caps { font: 400 168px/1.18 "Playfair", serif; letter-spacing: 34px; padding-left: 34px; text-align: center; position: relative; }
+</style></head>
+<body data-v="a">
+<div class="pic" id="a"><div class="it">Arian<br>Shala</div><div class="grain"></div></div>
+<div class="pic ink" id="b"><div class="it">Arian<br>Shala</div><div class="grain"></div></div>
+<div class="pic" id="c"><div class="caps">ARIAN<br>SHALA</div><div class="grain"></div></div>
+<div class="pic ink" id="d"><div class="caps">ARIAN<br>SHALA</div><div class="grain"></div></div>
+<script>
+const c = document.createElement('canvas'); c.width = c.height = 512; const x = c.getContext('2d'), im = x.createImageData(512, 512);
+let s = 7; const R = () => (s = (s * 16807) % 2147483647) / 2147483647;
+for (let i = 0; i < im.data.length; i += 4) { const v = 110 + R() * 145; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; }
+x.putImageData(im, 0, 0); document.querySelectorAll('.grain').forEach(g => g.style.backgroundImage = `url(${c.toDataURL()})`);
+</script></body></html>
