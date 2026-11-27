@@ -1,0 +1,76 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Profile</title>
+<style>
+@font-face { font-family: "Playfair"; font-style: italic; font-weight: 500; src: url(../assets/fonts/playfair-display-latin-500-italic.woff2) format("woff2"); }
+@font-face { font-family: "Playfair"; font-style: italic; font-weight: 600; src: url(../assets/fonts/playfair-display-latin-600-italic.woff2) format("woff2"); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1600px; height: 1600px; overflow: hidden; }
+.pic { position: absolute; inset: 0; overflow: hidden; display: none;
+  background: radial-gradient(75% 75% at 50% 46%, #f7f4ee 0%, #ebe6dd 55%, #d6cfc3 100%); }
+.pic.ink { background: radial-gradient(80% 80% at 50% 42%, #2a2622 0%, #171513 60%, #0e0d0c 100%); }
+body[data-v="a"] #a, body[data-v="b"] #b, body[data-v="c"] #c { display: block; }
+.grain { position: absolute; inset: 0; opacity: .09; mix-blend-mode: multiply; }
+.ink .grain { mix-blend-mode: screen; opacity: .05; }
+.vig { position: absolute; inset: 0; background: radial-gradient(closest-side, transparent 70%, rgba(60,45,30,.18)); }
+svg { position: absolute; inset: 0; width: 1600px; height: 1600px; }
+.name { position: absolute; left: 0; right: 0; text-align: center; font: italic 500 330px/0.92 "Playfair", serif; letter-spacing: -10px; color: #141312; }
+.amb { color: #e0832a; }
+.cap { position: absolute; left: 0; right: 0; text-align: center; font: 700 44px "Inter", sans-serif; letter-spacing: 20px; color: rgba(20,19,18,.62); padding-left: 20px; }
+.mono { position: absolute; left: 0; right: 0; text-align: center; font: italic 500 760px/1 "Playfair", serif; letter-spacing: -40px; color: #141312; }
+.ink .name, .ink .mono { color: #f3ede3; }
+.ink .cap { color: rgba(243,237,227,.6); }
+</style></head>
+<body data-v="a">
+<!-- A: stacked wordmark, hero-word style -->
+<div class="pic" id="a">
+  <svg viewBox="0 0 1600 1600"><g id="ringA"></g></svg>
+  <div class="name" style="top:452px">Arian</div>
+  <div class="name" style="top:752px; padding-left:90px">Shala<span class="amb">.</span></div>
+  <div class="grain"></div><div class="vig"></div>
+</div>
+<!-- B: monogram + name -->
+<div class="pic" id="b">
+  <svg viewBox="0 0 1600 1600"><g id="ringB"></g></svg>
+  <div class="mono" style="top:300px">A<span class="amb">S</span></div>
+  <div class="cap" style="top:1105px">ARIAN SHALA</div>
+  <div class="grain"></div><div class="vig"></div>
+</div>
+<!-- C: ink version of A -->
+<div class="pic ink" id="c">
+  <svg viewBox="0 0 1600 1600"><g id="ringC"></g></svg>
+  <div class="name" style="top:452px">Arian</div>
+  <div class="name" style="top:752px; padding-left:90px">Shala<span class="amb">.</span></div>
+  <div class="grain"></div>
+</div>
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+function ring(id, r, col, amberFrom, amberTo) {
+  const g = document.getElementById(id);
+  for (let i = 0; i < 120; i++) {
+    const a = i / 120 * Math.PI * 2 - Math.PI / 2, major = i % 10 === 0, len = major ? 34 : 16;
+    const amber = i >= amberFrom && i < amberTo;
+    const l = document.createElementNS(NS, 'line');
+    l.setAttribute('x1', 800 + Math.cos(a) * r); l.setAttribute('y1', 800 + Math.sin(a) * r);
+    l.setAttribute('x2', 800 + Math.cos(a) * (r + len)); l.setAttribute('y2', 800 + Math.sin(a) * (r + len));
+    l.setAttribute('stroke', amber ? '#e0832a' : col); l.setAttribute('stroke-width', major ? 6 : 3.5); l.setAttribute('stroke-linecap', 'round');
+    g.appendChild(l);
+  }
+  const arc = document.createElementNS(NS, 'circle');
+  arc.setAttribute('cx', 800); arc.setAttribute('cy', 800); arc.setAttribute('r', r - 22); arc.setAttribute('fill', 'none');
+  arc.setAttribute('stroke', '#e0832a'); arc.setAttribute('stroke-width', 9); arc.setAttribute('stroke-linecap', 'round');
+  const C = 2 * Math.PI * (r - 22), frac = (amberTo - amberFrom) / 120;
+  arc.setAttribute('stroke-dasharray', `${C * frac} ${C}`); arc.setAttribute('transform', `rotate(${amberFrom * 3 - 90} 800 800)`);
+  g.appendChild(arc);
+  const dot = document.createElementNS(NS, 'circle'), ea = amberTo / 120 * Math.PI * 2 - Math.PI / 2;
+  dot.setAttribute('cx', 800 + Math.cos(ea) * (r - 22)); dot.setAttribute('cy', 800 + Math.sin(ea) * (r - 22)); dot.setAttribute('r', 20); dot.setAttribute('fill', '#e0832a');
+  g.appendChild(dot);
+}
+ring('ringA', 640, 'rgba(20,19,18,.32)', 0, 90);
+ring('ringB', 640, 'rgba(20,19,18,.32)', 0, 90);
+ring('ringC', 640, 'rgba(243,237,227,.28)', 0, 90);
+// film grain
+const c = document.createElement('canvas'); c.width = c.height = 512; const x = c.getContext('2d'), im = x.createImageData(512, 512);
+let s = 7; const R = () => (s = (s * 16807) % 2147483647) / 2147483647;
+for (let i = 0; i < im.data.length; i += 4) { const v = 110 + R() * 145; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; }
+x.putImageData(im, 0, 0); document.querySelectorAll('.grain').forEach(g => g.style.backgroundImage = `url(${c.toDataURL()})`);
+</script></body></html>
